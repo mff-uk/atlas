@@ -62,7 +62,7 @@
         <div class="card">
           <div class="card-body">
             <h5 class="card-title">
-              <a href="https://tool.dataspecer.com/specification?dataSpecificationIri={}" class="tool-link">Edit
+              <a href="https://tool.dataspecer.com/specification?dataSpecificationIri={data-specification-iri}&returnUrlName=Atlas&returnUrl={return-url}" class="tool-link">Edit
                 specification</a>
             </h5>
             <p class="card-text">
@@ -73,14 +73,14 @@
         <div class="card">
           <div class="card-body">
             <h5 class="card-title">
-              <a href="https://tool.dataspecer.com/specification/generate?dataSpecificationIri={}" class="tool-link">Generate artifacts</a>
+              <a href="https://tool.dataspecer.com/specification/generate?dataSpecificationIri={data-specification-iri}&returnUrlName=Atlas&returnUrl={return-url}" class="tool-link">Generate artifacts</a>
             </h5>
             <p class="card-text">
-              Generate .ZIP file containing various artifacts from the data structures. 
+              Generate .ZIP file containing various artifacts from the data structures.
               The generation process can be highly configured.
             </p>
           </div>
-        </div>        
+        </div>
 
       </div>
     </article>
@@ -253,8 +253,10 @@
 
     function updateToolLinks(url) {
       const encodedUrl = encodeURIComponent(url);
+      const currentUrl = encodeURIComponent(window.location.href);
       Array.from(document.getElementsByClassName("tool-link")).forEach(link => {
-        link.href = link.href.replace("{}", encodedUrl);
+        link.href = link.href.replace("{data-specification-iri}", encodedUrl);
+        link.href = link.href.replace("{return-url}", currentUrl);
       });
     }
 
