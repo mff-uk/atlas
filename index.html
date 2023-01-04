@@ -22,6 +22,21 @@
       display: none !important;
     }
 
+    #create {
+      position: fixed;
+      right: 1rem;
+      bottom: 1rem;
+      width: 3.5rem;
+      height: 3.5rem;
+      border-radius:50%;
+      display: grid;
+      align-items: center;
+    }
+
+    #create a {
+      color: white;
+    }
+
   </style>
 </head>
 
@@ -43,17 +58,20 @@
         <input type="text" class="form-control" placeholder="Project name" aria-label="Project name"
           aria-describedby="search-label" id="search-input">
       </div>
-
     </div>
 
-    <!-- Klasický seznam, filtrace podle názvu a tags. -->
-    <!-- https://tool.dataspecer.com/  -->
-
     <div id="projects" class="list-group">
-
     </div>
 
     <div id="counter"></div>
+
+    <div id="create" class="btn btn-success" title="Create new project">
+      <a href="./project-create.html">
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+          <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+        </svg>
+      </a>
+    </div>
 
   </main>
 
@@ -87,7 +105,6 @@
       element.setAttribute("href", url);
       element.className = "list-group-item d-flex justify-content-between align-items-center";
 
-
       let content = item.label;
       if (item.tags.length > 0) {
         content += "<span>";
@@ -110,7 +127,6 @@
       let visibleCounter = 0;
       data.forEach((item) => {
         const isVisible = item.filter.includes(search);
-        console.log(item.filter, search, isVisible);
         if (isVisible || search.length === 0 || search === "") {
           item.element.classList.remove("hidden");
           visibleCounter++;
