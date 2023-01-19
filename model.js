@@ -2,6 +2,10 @@ const SCHEMA_TYPE = "https://ofn.gov.cz/slovník/pim/Schema";
 
 const API_ENDPOINT = "https://backend.dataspecer.com/data-specification";
 
+const DATASPECER_MM_METADATA = "http://nosql.ms.mff.cuni.cz/mmcat/dataspecer-self-metadata";
+
+const MM_API_ENDPOINT = "http://nosql.ms.mff.cuni.cz/mmcat-api/schema-categories";
+
 const CREATE_SPECIFICATION_PAYLOAD = {
   "type": "http://dataspecer.com/vocabularies/data-specification/documentation",
   "tags": []
@@ -23,7 +27,9 @@ export async function fetchProjects(filter = (entry) => true) {
     const schemaResource = storeData?.resources?.[item.pim];
     // We have the right resource.
     result.push({
+      ...item,
       'iri': item.iri,
+      'mmId': item.artefactConfiguration?.[DATASPECER_MM_METADATA]?.projectId ?? null,
       "tags": item.tags,
       "label": schemaResource?.pimHumanLabel,
       'pimStore': store.url
@@ -72,11 +78,11 @@ export async function createStandardSpecification(label) {
   return project;
 }
 
-async function fetchPostJson(url, content) {
+async function fetchPostJson(url, content, method = "POST") {
   return await (await fetch(url, {
-    "method": "POST",
+    "method": method,
     "headers": {
-      "Content-Type": "application/json",      
+      "Content-Type": "application/json",
     },
     "body": JSON.stringify(content),
   })).json();
@@ -86,7 +92,7 @@ async function initializeProject(store, pimResourceIri, label) {
   const createId = uuid();
   const setLabelId = uuid();
   const setDescriptionId = uuid();
-  
+
   const requestContent = {
     "operations": [
       {
@@ -133,7 +139,7 @@ async function initializeProject(store, pimResourceIri, label) {
   return await await fetch(store.url, {
     "method": "PUT",
     "headers": {
-      "Content-Type": "application/json",      
+      "Content-Type": "application/json",
     },
     "body": JSON.stringify(requestContent),
   });
@@ -149,3 +155,48 @@ function uuid() {
   );
   return `${head}-${tail}`;
 };
+
+export async function createAndSetMmProject(dataSpecification) {
+  // Create new MM project
+  const {id: mmToolId} = await fetchPostJson(MM_API_ENDPOINT, {
+    jsonValue: JSON.stringify({label: dataSpecification.label})
+  });
+
+  // Update the data specification locally
+  dataSpecification.artefactConfiguration = {
+    ...dataSpecification.artefactConfiguration,
+    [DATASPECER_MM_METADATA]: {
+      ...dataSpecification.artefactConfiguration?.[DATASPECER_MM_METADATA],
+      projectId: mmToolId
+    }
+  }
+  dataSpecification.mmId = mmToolId;
+
+  // Modify the data specification on the server
+  await fetchPostJson(API_ENDPOINT, {
+    dataSpecificationIri: dataSpecification.iri,
+    update: {
+      artefactConfiguration: dataSpecification.artefactConfiguration,
+    }
+  }, "PUT");
+}
+
+export async function unlinkMmProject(dataSpecification) {
+  // Update the data specification locally
+  dataSpecification.artefactConfiguration = {
+    ...dataSpecification.artefactConfiguration,
+    [DATASPECER_MM_METADATA]: {
+      ...dataSpecification.artefactConfiguration?.[DATASPECER_MM_METADATA],
+      projectId: null
+    }
+  }
+  dataSpecification.mmId = null;
+
+  // Modify the data specification on the server
+  await fetchPostJson(API_ENDPOINT, {
+    dataSpecificationIri: dataSpecification.iri,
+    update: {
+      artefactConfiguration: dataSpecification.artefactConfiguration,
+    }
+  }, "PUT");
+}
