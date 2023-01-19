@@ -40,6 +40,10 @@
       margin: 1rem 0;
     }
 
+    .disabled {
+      opacity: 0.5;
+    }
+
   </style>
 </head>
 
@@ -110,18 +114,20 @@
         <div class="card">
           <div class="card-body">
             <h5 class="card-title">
-              <a href="http://example.com/" class="tool-link">Import Schema</a>
+              <a href="http://nosql.ms.mff.cuni.cz/mmcat/$project-id$/schema-category?pimIri=$data-specification-iri$" class="tool-link">Import Schema</a>
             </h5>
             <p class="card-text">Import an existing schema.</p>
           </div>
         </div>
 
-        <div class="card">
+        <div class="card disabled">
           <div class="card-body">
             <h5 class="card-title">
-              <a href="http://example.com/" class="tool-link">Schema Inference</a>
+              <span class="tool-link">Schema Inference</span>
             </h5>
             <p class="card-text">Extraction of implicit schema from data.</p>
+            <p class="fw-bold">Integration in progress.</p>
+            <a href="https://www.ksi.mff.cuni.cz/~koupil/mm-infer/index.html" class="btn btn-secondary">See the stand alone tool</a>
           </div>
         </div>
 
@@ -180,18 +186,20 @@
         <div class="card">
           <div class="card-body">
             <h5 class="card-title">
-              <a href="http://example.com/" class="tool-link">Import Schema</a>
+              <a href="http://nosql.ms.mff.cuni.cz/mmcat/$project-id$/schema-category?pimIri=$data-specification-iri$" class="tool-link">Import Schema</a>
             </h5>
             <p class="card-text">Import an existing schema.</p>
           </div>
         </div>
 
-        <div class="card">
+        <div class="card disabled">
           <div class="card-body">
             <h5 class="card-title">
-              <a href="http://example.com/" class="tool-link">Schema Inference</a>
+              <span class="tool-link">Schema Inference</span>
             </h5>
             <p class="card-text">Extraction of implicit schema from data.</p>
+            <p class="fw-bold">Integration in progress.</p>
+            <a href="https://www.ksi.mff.cuni.cz/~koupil/mm-infer/index.html" class="btn btn-secondary">See the stand alone tool</a>
           </div>
         </div>
 
@@ -204,12 +212,13 @@
           </div>
         </div>
 
-        <div class="card">
+        <div class="card disabled">
           <div class="card-body">
             <h5 class="card-title">
-              <a href="http://nosql.ms.mff.cuni.cz/mmcat/$project-id$/schema-category" class="tool-link">Evolution Management</a>
+              <span class="tool-link">Evolution Management</span>
             </h5>
             <p class="card-text">Managing structural changes in data reflecting changes in user requirements.</p>
+            <p class="fw-bold">Work in progress.</p>
           </div>
         </div>
 
@@ -222,12 +231,14 @@
           </div>
         </div>
 
-        <div class="card">
+        <div class="card disabled">
           <div class="card-body">
             <h5 class="card-title">
-              <a href="http://example.com/" class="tool-link">Querying</a>
+              <span class="tool-link">Querying</span>
             </h5>
             <p class="card-text">Querying multi-model data utilizing a unified interface.</p>
+            <p class="fw-bold">Integration in progress.</p>
+            <a href="https://www.ksi.mff.cuni.cz/~koupil/mm-quecat/index.html" class="btn btn-secondary">See the stand alone tool</a>
           </div>
         </div>
 
