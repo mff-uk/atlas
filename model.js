@@ -1,6 +1,6 @@
 const SCHEMA_TYPE = "https://ofn.gov.cz/slovník/pim/Schema";
 
-const API_ENDPOINT = "https://backend.dataspecer.com/data-specification";
+const API_ENDPOINT = "https://demo-ds-backend.penduline.mercadia.cz/data-specification";
 
 const CREATE_SPECIFICATION_PAYLOAD = {
   "type": "http://dataspecer.com/vocabularies/data-specification/documentation",
