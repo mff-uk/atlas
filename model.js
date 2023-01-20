@@ -1,10 +1,14 @@
-const SCHEMA_TYPE = "https://ofn.gov.cz/slovník/pim/Schema";
-
+// Dataspecer data specification endpoint
 const API_ENDPOINT = "https://backend.dataspecer.com/data-specification";
 
+// MM-evocat schema categories endpoint
+const MM_API_ENDPOINT = "https://nosql.ms.mff.cuni.cz/mmcat-api/schema-categories";
+
+// Change this to use multiple independent instances under the same DS backend
+// Used as a key to store MM project ID in DS
 const DATASPECER_MM_METADATA = "http://nosql.ms.mff.cuni.cz/mmcat/dataspecer-self-metadata";
 
-const MM_API_ENDPOINT = "http://nosql.ms.mff.cuni.cz/mmcat-api/schema-categories";
+
 
 const CREATE_SPECIFICATION_PAYLOAD = {
   "type": "http://dataspecer.com/vocabularies/data-specification/documentation",
