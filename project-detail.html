@@ -249,7 +249,7 @@
 
   <script type="module">
 
-    import { fetchProjects, selectLangString } from "./model.js";
+    import { fetchProjects, selectLangString, createAndSetMmProject, unlinkMmProject } from "./model.js";
 
     (async function main() {
       const query = new URLSearchParams(window.location.search);
@@ -274,7 +274,19 @@
       if (projectList.length === 0) {
         renderMissingProject();
       } else {
-        renderProject(projectList[0]);
+        const project = projectList[0];
+        if (project.mmId === null) {
+          console.log("Creating and registering new MM project for:", project.iri);
+          await createAndSetMmProject(project)
+          console.log("New MM project created with ID:", project.mmId);
+        }
+
+        // Register console functions
+        window.unlinkMmProject = () => {
+          unlinkMmProject(project);
+        }
+
+        renderProject(project);
       }
 
     })();
@@ -286,17 +298,17 @@
     function renderProject(project) {
       console.log("Rendering project: ", project);
       document.getElementById("project-name").innerText = project.label;
-      updateToolLinks(project.iri);
+      updateToolLinks(project);
     }
 
-    function updateToolLinks(url) {
-      const encodedUrl = encodeURIComponent(url);
+    function updateToolLinks(project) {
+      const encodedUrl = encodeURIComponent(project.iri);
       const currentUrl = encodeURIComponent(window.location.href);
       Array.from(document.getElementsByClassName("tool-link")).forEach(link => {
         link.href = link.href
         .replace("$data-specification-iri$", encodedUrl)
         .replace("$return-url$", currentUrl)
-        .replace("$project-id$", "5");
+        .replace("$project-id$", project.mmId);
       });
     }
 
