@@ -1,5 +1,5 @@
 // Dataspecer data specification endpoint
-const API_ENDPOINT = "https://backend.dataspecer.com/data-specification";
+const API_ENDPOINT = "https://demo-ds-backend.penduline.mercadia.cz/data-specification";
 
 // MM-evocat schema categories endpoint
 const MM_API_ENDPOINT = "https://nosql.ms.mff.cuni.cz/mmcat-api/schema-categories";
