@@ -2,7 +2,7 @@
 const API_ENDPOINT = "https://demo-ds-backend.penduline.mercadia.cz/data-specification";
 
 // MM-evocat schema categories endpoint
-const MM_API_ENDPOINT = "https://nosql.ms.mff.cuni.cz/mmcat-api/schema-categories";
+const MM_API_ENDPOINT = "https://nosql.ms.mff.cuni.cz/mmcat-api/public/schema-categories";
 
 // Change this to use multiple independent instances under the same DS backend
 // Used as a key to store MM project ID in DS
