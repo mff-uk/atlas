@@ -162,7 +162,7 @@ function uuid() {
 export async function createAndSetMmProject(dataSpecification) {
   // Create new MM project
   const {id: mmToolId} = await fetchPostJson(MM_API_ENDPOINT, {
-    jsonValue: JSON.stringify({label: dataSpecification.label})
+    label: dataSpecification.label,
   });
 
   // Update the data specification locally
