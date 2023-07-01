@@ -1,0 +1,6 @@
+/* Fix size of theme switch. */
+.navbar .bi {
+    width: 1em;
+    height: 1em;
+    fill: white;
+}
