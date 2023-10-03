@@ -6,7 +6,7 @@ const MM_API_ENDPOINT = "https://demo.mmcatdb.com/api/v1/public/schema-categorie
 
 // Change this to use multiple independent instances under the same DS backend
 // Used as a key to store MM project ID in DS
-const DATASPECER_MM_METADATA = "https://demo.mm-evocat.com/mmcat/dataspecer-self-metadata";
+const DATASPECER_MM_METADATA = "https://demo.mmcatdb.com/mmcat/dataspecer-self-metadata";
 
 
 const CREATE_SPECIFICATION_PAYLOAD = {
