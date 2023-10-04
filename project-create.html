@@ -19,7 +19,8 @@
   <nav class="navbar navbar-dark bg-primary navbar-expand">
     <div class="container-fluid">
       <a class="navbar-brand" href="./">Atlas</a>
-      <ul class="navbar-nav flex-row flex-wrap ms-md-auto">
+      <input style="max-width: 15rem;" class="form-control form-control-sm ms-md-auto" type="text" placeholder="filter by tag" id="tag-filter">
+      <ul class="navbar-nav flex-row flex-wrap">
         <li class="nav-item dropdown">
           <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
             <symbol id="circle-half" viewBox="0 0 16 16">
@@ -101,7 +102,9 @@
 
   <script type="module">
 
-    import { createStandardSpecification } from "./model.js";
+    import { createStandardSpecification, getCurrentTagFilter, initTagFilter } from "./model.js";
+
+    initTagFilter();
 
     (function main() {
       document.getElementById("submit").addEventListener("click", handleCreateSpecification);
@@ -109,7 +112,7 @@
 
     async function handleCreateSpecification() {
       const label = document.getElementById("label-input").value.trimEnd();
-      const project = await createStandardSpecification(label);
+      const project = await createStandardSpecification(label, getCurrentTagFilter());
       window.location.href = "./project-detail.html?iri=" + encodeURIComponent(project.iri);
     }
 

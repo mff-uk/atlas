@@ -46,7 +46,8 @@
   <nav class="navbar navbar-dark bg-primary navbar-expand">
     <div class="container-fluid">
       <a class="navbar-brand" href="./">Atlas</a>
-      <ul class="navbar-nav flex-row flex-wrap ms-md-auto">
+      <input style="max-width: 15rem;" class="form-control form-control-sm ms-md-auto" type="text" placeholder="filter by tag" id="tag-filter">
+      <ul class="navbar-nav flex-row flex-wrap">
         <li class="nav-item dropdown">
           <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
             <symbol id="circle-half" viewBox="0 0 16 16">
@@ -137,7 +138,7 @@
 
   <script type="module">
 
-    import { fetchProjects, selectLangString } from "./model.js";
+    import { fetchProjects, selectLangString, getCurrentTagFilter, setCurrentTagFilter, initTagFilter } from "./model.js";
 
     const data = [];
 
@@ -153,7 +154,7 @@
       });
       data.forEach(insertIntoList);
       attachFilterListeners();
-      updateCounter(data.length);
+      updateByFilters();
     })();
 
     /**
@@ -179,19 +180,31 @@
       item.element = element;
     }
 
-    function attachFilterListeners() {
-      document.getElementById("search-input").addEventListener("input", (event) => filterData(event.target.value.toLowerCase()));
+    function updateByFilters() {
+      const search = document.getElementById("search-input");
+      const tagFilter = document.getElementById("tag-filter");
+      filterData(search.value.toLowerCase(), tagFilter.value);
     }
 
-    function filterData(search) {
+    function attachFilterListeners() {
+      const search = document.getElementById("search-input");
+      const tagFilter = document.getElementById("tag-filter");
+
+      search.addEventListener("input", updateByFilters);
+      tagFilter.addEventListener("input", updateByFilters);
+    }
+
+    function filterData(search, tag) {
       let visibleCounter = 0;
       data.forEach((item) => {
-        const isVisible = item.filter.includes(search);
-        if (isVisible || search.length === 0 || search === "") {
+        const isVisible = (search.length === 0 || search === "" || item.filter.includes(search)) && (tag === "" || item.tags.includes(tag));
+        if (isVisible) {
           item.element.classList.remove("hidden");
+          item.element.classList.add("list-group-item");
           visibleCounter++;
         } else {
           item.element.classList.add("hidden");
+          item.element.classList.remove("list-group-item"); // Fixes problems with hidden first-child
         }
       });
       updateCounter(visibleCounter);
@@ -201,6 +214,10 @@
       document.getElementById("counter").innerText = `Showing ${visibleCount} out of ${data.length} projects.`;
     }
 
+    initTagFilter();
+  </script>
+
+  <script>
   </script>
 
   <script src="./dark-mode.js"></script>

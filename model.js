@@ -8,11 +8,39 @@ const MM_API_ENDPOINT = "https://demo.mmcatdb.com/api/v1/public/schema-categorie
 // Used as a key to store MM project ID in DS
 const DATASPECER_MM_METADATA = "https://demo.mmcatdb.com/mmcat/dataspecer-self-metadata";
 
+// Default tag for new specifications and for filtering of projects
+const DEFAULT_SPECIFICATION_TAG = "Atlas demo";
 
 const CREATE_SPECIFICATION_PAYLOAD = {
   "type": "http://dataspecer.com/vocabularies/data-specification/documentation",
   "tags": []
 };
+
+export function getCurrentTagFilter() {
+  let filter =  localStorage.getItem("tag-filter") ?? DEFAULT_SPECIFICATION_TAG;
+  if (filter == "") {
+    filter = null;
+  }
+
+  return filter;
+}
+
+export function setCurrentTagFilter(tag) {
+  if (tag !== DEFAULT_SPECIFICATION_TAG) {
+    localStorage.setItem("tag-filter", tag);
+  } else {
+    localStorage.removeItem("tag-filter");
+  }
+}
+
+export function initTagFilter() {
+  const tagFilter = document.getElementById("tag-filter");
+  tagFilter.addEventListener("input", () => {
+    setCurrentTagFilter(tagFilter.value);
+  });
+
+  tagFilter.value = getCurrentTagFilter();
+}
 
 export async function fetchProjects(filter = (entry) => true) {
   const response = await fetchAsJson(API_ENDPOINT);
@@ -70,9 +98,10 @@ function nonEmpty(value) {
   }
 }
 
-export async function createStandardSpecification(label) {
+export async function createStandardSpecification(label, tag) {
+  const payload = {...CREATE_SPECIFICATION_PAYLOAD, tags: tag ? [tag] : []};
   let project =
-    await fetchPostJson(API_ENDPOINT, CREATE_SPECIFICATION_PAYLOAD);
+    await fetchPostJson(API_ENDPOINT, payload);
   const store = selectWritablePimStore(project);
   if (store == null) {
     throw new Error("Can't create project.");
